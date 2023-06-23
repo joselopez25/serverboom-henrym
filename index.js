@@ -88,6 +88,10 @@ io.on("connection", (server) =>{
     io.sockets.emit('endGame')
   })
 
+  server.on('count', (data)=>{
+    io.sockets.emit('count', data)
+  })
+
   server.on('inicio', ()=>{
     io.sockets.emit('changeTurn', usersOnlineUnique[currentPlayer]?.name)
   })
