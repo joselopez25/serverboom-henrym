@@ -10,6 +10,11 @@ const { RAE } = require('rae-api');
 
 const rae = new RAE();
 
+
+app.get('/', (req,res)=>{
+  res.status(200).send({msg: "TODO CORRECTO"})
+})
+
 const people = [
   { name: 'Juan' },
   { name: 'María' },
