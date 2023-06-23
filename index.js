@@ -95,6 +95,38 @@ io.on("connection", (server) =>{
     io.sockets.emit('initTurn', currentPlayer)
   })
 
+  server.on('salida', (data)=>{
+
+    usersOnline.forEach((person)=>{
+      if(person.name === data){
+        console.log(person.name);
+        console.log(data);
+        usersOnline = usersOnline.filter(person => person.name != data)
+      }
+    })
+    usersOnlineUnique.forEach((person) => {
+    if(person.name === data){
+      console.log(person.name);
+      console.log(data);
+      usersOnlineUnique = usersOnlineUnique.filter(person => person.name != data)
+      return io.sockets.emit("people", usersOnlineUnique)
+    }
+  });
+  })
+  
+  /* usersOnlineUnique.forEach((person) => {
+    if(person.name === data){
+      console.log(person.name);
+      console.log(data);
+      usersOnlineUnique = usersOnlineUnique.filter(person => person.name != data)
+      return io.sockets.emit("people", usersOnlineUnique)
+    }
+  }); */
+  
+  server.on('disconnect', ()=>{
+      console.log('chao', server.id);
+  })
+
  
   let hash = {}
   server.on("name", data=>{
