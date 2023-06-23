@@ -113,6 +113,7 @@ io.on("connection", (server) =>{
         usersOnline = usersOnline.filter(person => person.name != data)
       }
     })
+    
     usersOnlineUnique.forEach((person) => {
     if(person.name === data){
       console.log(person.name);
