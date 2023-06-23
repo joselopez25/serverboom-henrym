@@ -34,6 +34,8 @@ let usersOnlineUnique = []
 let counter = 0;
 
 let currentPlayer = 0;
+
+let coincide = false;
 const silaba = async ()=>{
   try {
     const random = await rae.getRandomWord()
@@ -124,6 +126,27 @@ io.on("connection", (server) =>{
  
   
   let hash = {}
+
+  server.on('val', data=>{
+    console.log(usersOnlineUnique.length);
+    if(usersOnlineUnique.length){
+      usersOnlineUnique.forEach((user)=>{
+        console.log(user.name);
+        console.log(data);
+        if(user.name == data){
+          console.log('invalido');
+          coincide = true
+        }
+      })
+      if(coincide){
+        coincide = false
+        return server.emit('inval')
+      }
+      return server.emit('val')
+    }else{
+      return server.emit('val')
+    }
+  })
   server.on("name", data=>{
     
     people.forEach(element => {
