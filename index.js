@@ -1,3 +1,4 @@
+const { channel } = require('diagnostics_channel');
 const express = require('express');
 const app = express();
 const http = require('http');
@@ -129,9 +130,9 @@ io.on("connection", (server) =>{
     }
   }); */
   
-  server.on('disconnect', ()=>{
-      console.log('chao', server.id);
-  })
+  /* server.on('disconnect', data=>{
+   
+  }) */
 
  
   let hash = {}
