@@ -16,12 +16,14 @@ app.get('/', (req,res)=>{
 })
 
 const people = [
-  { name: 'Juan' },
-  { name: 'María' },
-  { name: 'Pedro' },
-  { name: 'Ana' },
-  { name: 'Luis' },
-  { name: 'Jose' }
+  { name: 'Aufer' },
+  { name: 'Nico' },
+  { name: 'Johan' },
+  { name: 'Jairo' },
+  { name: 'Lien' },
+  { name: 'Jose' },
+  { name: 'Ernesto'},
+  { name: 'Camilo' }
 ];
 
 let usersOnline = []
