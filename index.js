@@ -121,20 +121,8 @@ io.on("connection", (server) =>{
   });
   })
   
-  /* usersOnlineUnique.forEach((person) => {
-    if(person.name === data){
-      console.log(person.name);
-      console.log(data);
-      usersOnlineUnique = usersOnlineUnique.filter(person => person.name != data)
-      return io.sockets.emit("people", usersOnlineUnique)
-    }
-  }); */
-  
-  /* server.on('disconnect', data=>{
-   
-  }) */
-
  
+  
   let hash = {}
   server.on("name", data=>{
     
