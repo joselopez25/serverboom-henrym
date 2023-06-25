@@ -36,12 +36,14 @@ let counter = 0;
 let currentPlayer = 0;
 
 let coincide = false;
+
+let sila = ''
 const silaba = async ()=>{
   try {
     const random = await rae.getRandomWord()
     let arr = random.header.split('')
     let num = Math.floor(Math.random()*arr.length-3)
-    let sila = random.header.slice(num,num+3)
+    sila = random.header.slice(num,num+3)
     console.log("silaba: " + sila);
     if(sila === ''){
       return silaba()
@@ -69,6 +71,10 @@ io.on("connection", (server) =>{
   return silaba()
   })
 
+  server.on('sound', ()=>{
+    io.sockets.emit('sound')
+  })
+
   server.on('endTurn', () => {
     console.log('2 veces');
     currentPlayer++;
@@ -88,6 +94,17 @@ io.on("connection", (server) =>{
   })
 
   server.on('endGame', ()=>{
+    usersOnline = []
+
+    usersOnlineUnique = []
+
+    counter = 0;
+
+    currentPlayer = 0;
+
+    coincide = false;
+
+    sila = ''
     io.sockets.emit('endGame')
   })
 
@@ -97,6 +114,11 @@ io.on("connection", (server) =>{
 
   server.on('inicio', ()=>{
     io.sockets.emit('changeTurn', usersOnlineUnique[currentPlayer]?.name)
+  })
+
+  server.on('reinit', ()=>{
+    currentPlayer = 0
+    io.sockets.emit('people', usersOnlineUnique)
   })
 
   server.on('play', ()=>{
@@ -132,10 +154,7 @@ io.on("connection", (server) =>{
     console.log(usersOnlineUnique.length);
     if(usersOnlineUnique.length){
       usersOnlineUnique.forEach((user)=>{
-        console.log(user.name);
-        console.log(data);
         if(user.name == data){
-          console.log('invalido');
           coincide = true
         }
       })
@@ -153,7 +172,8 @@ io.on("connection", (server) =>{
     people.forEach(element => {
       if(element.name === data){
         usersOnline.push({ name: data, vidas: 2 })
-        usersOnlineUnique = usersOnline.filter(person => hash[person.name] ? false : hash[person.name] = true )      
+        usersOnlineUnique = usersOnline.filter(person => hash[person.name] ? false : hash[person.name] = true )
+        server.emit('ingreso')     
         server.emit("user", data)
         io.sockets.emit("people", usersOnlineUnique)
       }
