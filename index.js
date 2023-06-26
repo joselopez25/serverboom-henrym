@@ -1,4 +1,4 @@
-const { channel } = require('diagnostics_channel');
+
 const express = require('express');
 const app = express();
 const http = require('http');
@@ -44,7 +44,7 @@ const silaba = async ()=>{
     let arr = random.header.split('')
     let num = Math.floor(Math.random()*arr.length-3)
     sila = random.header.slice(num,num+3)
-    console.log("silaba: " + sila);
+
     if(sila === ''){
       return silaba()
     }
@@ -76,7 +76,6 @@ io.on("connection", (server) =>{
   })
 
   server.on('endTurn', () => {
-    console.log('2 veces');
     currentPlayer++;
     if (currentPlayer >= usersOnlineUnique.length) {
       currentPlayer = 0;
@@ -130,16 +129,12 @@ io.on("connection", (server) =>{
 
     usersOnline.forEach((person)=>{
       if(person.name === data){
-        console.log(person.name);
-        console.log(data);
         usersOnline = usersOnline.filter(person => person.name != data)
       }
     })
     
     usersOnlineUnique.forEach((person) => {
     if(person.name === data){
-      console.log(person.name);
-      console.log(data);
       usersOnlineUnique = usersOnlineUnique.filter(person => person.name != data)
       return io.sockets.emit("people", usersOnlineUnique)
     }
@@ -151,7 +146,6 @@ io.on("connection", (server) =>{
   let hash = {}
 
   server.on('val', data=>{
-    console.log(usersOnlineUnique.length);
     if(usersOnlineUnique.length){
       usersOnlineUnique.forEach((user)=>{
         if(user.name == data){
