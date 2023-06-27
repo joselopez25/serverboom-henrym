@@ -36,9 +36,9 @@ let coincide = false;
 let sila = ''
 
 const silaba = async ()=>{
-    const index = Math.trunc(Math.random()*4680)
+    const index = Math.trunc(Math.random()*4600)
     const random = await comunes[index]
-    sila = random.slice(1,4)
+    sila = random.slice(0,3)
     console.log(sila);
     io.sockets.emit("sil", sila)
 }
