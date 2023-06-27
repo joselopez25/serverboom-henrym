@@ -6,12 +6,10 @@ const server = http.createServer(app);
 const io = require("socket.io")(server, {
   cors: { origin: '*' }
 })
-
+const comunes =require('./comun')
 const { RAE } = require('rae-api');
 
 const rae = new RAE();
-
-
 app.get('/', (req,res)=>{
   res.status(200).send({msg: "TODO CORRECTO"})
 })
@@ -31,29 +29,18 @@ let usersOnline = []
 
 let usersOnlineUnique = []
 
-let counter = 0;
-
 let currentPlayer = 0;
 
 let coincide = false;
 
 let sila = ''
-const silaba = async ()=>{
-  try {
-    const random = await rae.getRandomWord()
-    let arr = random.header.split('')
-    let num = Math.floor(Math.random()*arr.length-3)
-    sila = random.header.slice(num,num+3)
 
-    if(sila === ''){
-      return silaba()
-    }
-    if(sila){
-      return io.sockets.emit("sil", sila)
-    }
-  } catch (error) {
-    console.log(error);
-  }
+const silaba = async ()=>{
+    const index = Math.trunc(Math.random()*4680)
+    const random = await comunes[index]
+    sila = random.slice(1,4)
+    console.log(sila);
+    io.sockets.emit("sil", sila)
 }
 
 
@@ -67,12 +54,20 @@ io.on("connection", (server) =>{
 
   console.log(`El dispositivo ${idHandShake} se unio a ${nameRoom}`);
   server.on("generate", ()=>{
-  counter++
-  return silaba()
+    silaba()
   })
 
   server.on('sound', ()=>{
     io.sockets.emit('sound')
+  })
+  
+  server.on('palabra', (palabra)=>{
+    console.log(palabra);
+    if(palabra.includes(sila)){
+      io.sockets.emit('endturn')
+    }else{
+      io.sockets.emit('errores')
+    }
   })
 
   server.on('endTurn', () => {
@@ -97,7 +92,6 @@ io.on("connection", (server) =>{
 
     usersOnlineUnique = []
 
-    counter = 0;
 
     currentPlayer = 0;
 
