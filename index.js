@@ -71,6 +71,7 @@ io.on("connection", (server) =>{
   })
 
   server.on('endTurn', () => {
+    io.sockets.emit('enpartida')
     currentPlayer++;
     if (currentPlayer >= usersOnlineUnique.length) {
       currentPlayer = 0;
@@ -106,6 +107,7 @@ io.on("connection", (server) =>{
   })
 
   server.on('inicio', ()=>{
+    io.sockets.emit('enpartida')
     io.sockets.emit('changeTurn', usersOnlineUnique[currentPlayer]?.name)
   })
 
