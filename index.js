@@ -161,7 +161,7 @@ io.on("connection", (server) =>{
           gameID: "649c4dc5282a3385373aa6fd", 
           cohort: data[0].cohort, 
           group: data[0].group, 
-          points: 10}
+          points: 100}
         ]
         try {
           await axios.post(`https://henrymoon.onrender.com/ranking/many`, ranking)
