@@ -9,7 +9,6 @@ const io = require("socket.io")(server, {
 })
 const comunes =require('./comun')
 const { RAE } = require('rae-api');
-const { log } = require('console');
 
 const {HMOON_BACKEND_URL} = process.env
 
@@ -18,11 +17,10 @@ app.get('/', (req,res)=>{
   res.status(200).send({msg: "TODO CORRECTO"})
 })
 
-const endpoin ='http://localhost:3001/user/all'
 let allUsers = []
 let Email = ''
 const getAllUsers = async(req, res)=>{
-    const {data} = await axios(`${HMOON_BACKEND_URL}/user/all`)
+    const {data} = await axios(`https://henrymoon.onrender.com/user/all`)
     allUsers = data
 }
 
@@ -155,7 +153,7 @@ io.on("connection", (server) =>{
   
   const datosReq = async (datos)=>{
     try {
-      const {data} = await axios(`${HMOON_BACKEND_URL}/user/group?email=${datos.email}`)
+      const {data} = await axios(`https://henrymoon.onrender.com/user/group?email=${datos.email}`)
       console.log(data[0]);
       if(data.length){
         const ranking = [
@@ -166,7 +164,7 @@ io.on("connection", (server) =>{
           points: 10}
         ]
         try {
-          await axios.post(`${HMOON_BACKEND_URL}/ranking/many`, ranking)
+          await axios.post(`https://henrymoon.onrender.com/ranking/many`, ranking)
           console.log(ranking);
         } catch (error) {
           console.log('error');
